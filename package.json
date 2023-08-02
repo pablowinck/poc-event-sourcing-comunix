@@ -7,14 +7,11 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/index.js"
+    "start": "node --watch ./src/index.js"
   },
   "keywords": ["nodejs", "vanilla", "template"],
   "license": "MIT",
   "dependencies": {
     "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
   }
 }
