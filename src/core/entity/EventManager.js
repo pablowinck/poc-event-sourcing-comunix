@@ -1,12 +1,15 @@
-import EventEmitter from 'node:events'
+import EventEmitter from 'node:events';
 
 export class EventManager extends EventEmitter {
+    #eventStore;
 
-    constructor() {
+    constructor(eventStore) {
         super()
+        this.#eventStore = eventStore;
         super.on('event-proxy', (event, args) => {
             if (this.#isEventProxy(event)) return;
             if (this.#isHttpProxy(args)) return;
+            eventStore.insert(event, args);
         })
     }
 

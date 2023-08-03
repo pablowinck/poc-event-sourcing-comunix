@@ -1,5 +1,5 @@
-import { describe, it, mock } from 'node:test'
-import assert from 'node:assert'
+import assert from 'node:assert';
+import { describe, it, mock } from 'node:test';
 import { EventManager } from '../../../src/core/entity/EventManager.js';
 
 describe('EventManager', () => {

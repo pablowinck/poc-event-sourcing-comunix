@@ -10,9 +10,14 @@
     "test": "node --test test/",
     "start": "node --watch ./src/index.js"
   },
-  "keywords": ["nodejs", "vanilla", "template"],
+  "keywords": [
+    "nodejs",
+    "vanilla",
+    "template"
+  ],
   "license": "MIT",
   "dependencies": {
+    "mongodb": "^5.7.0",
     "morgan": "^1.10.0"
   }
 }
