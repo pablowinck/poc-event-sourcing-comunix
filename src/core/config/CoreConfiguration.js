@@ -21,7 +21,7 @@ export class CoreConfiguration {
             this.eventStore.closeConnection();
         }).on('close', () => {
             console.log("Server closed");
-            eventStore.closeConnection();
+            this.eventStore.closeConnection();
         })
     }
 
