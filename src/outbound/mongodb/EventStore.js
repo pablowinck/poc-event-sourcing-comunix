@@ -21,7 +21,7 @@ export class EventStore {
     const event = {
       type: eventType,
       data: eventData,
-      timestamp: new Date(),
+      createAt: new Date(),
     };
     try {
       await this.collection.insertOne(event);

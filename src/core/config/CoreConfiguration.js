@@ -1,5 +1,6 @@
 import morgan from 'morgan';
 import { createServer } from 'node:http';
+import { EventStore } from "../../outbound/mongodb/EventStore.js";
 import { EventManager } from '../entity/EventManager.js';
 
 export class CoreConfiguration {
@@ -18,8 +19,11 @@ export class CoreConfiguration {
     }
 
     get eventManager() {
-        if (!this.#eventManager)
-            this.#eventManager = new EventManager()
+        if (!this.#eventManager){
+            const eventStore = new EventStore();
+            this.#eventManager = new EventManager(eventStore);
+        }
+           
         return this.#eventManager
     }
 
