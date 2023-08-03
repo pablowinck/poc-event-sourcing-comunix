@@ -2,6 +2,7 @@ export class UserController {
 
     constructor(eventManager) {
         eventManager.on('/user', this.handleUser.bind(this))
+        this.eventManager = eventManager
     }
 
     handleUser({ req, res }) {

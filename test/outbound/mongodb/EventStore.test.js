@@ -3,16 +3,16 @@ import { describe, it } from "node:test";
 import { EventStore } from "../../../src/outbound/mongodb/EventStore.js";
 
 describe("EventStore", () => {
-  it("quando chamado o criado um evento, depois chamado a listagem de eventos deve exibir a listagem", async () => {
+  it("when an event is created and then the list of events is called, it should display the list", async () => {
     const eventStore = new EventStore();
     await eventStore.init();
-    await eventStore.deleteAll();
     const event = {
-      description: "Cadastrar Usuario",
+      description: "Create User",
       status: "To Do",
     };
-    await eventStore.insert("Evento Cadastro de usuário", event);
-    const events = await eventStore.getAll();
+    const eventType = 'user-created-' + new Date().getTime();
+    await eventStore.insert(eventType, event);
+    const events = await eventStore.findByType(eventType);
     assert.strictEqual(events.length, 1);
     assert.strictEqual(events[0].data.description, event.description);
     await eventStore.deleteAll();

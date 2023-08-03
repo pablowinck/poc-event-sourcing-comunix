@@ -6,6 +6,7 @@ import { EventManager } from '../entity/EventManager.js';
 export class CoreConfiguration {
 
     #eventManager
+    #eventStore
 
     get server() {
         const logger = morgan('tiny')
@@ -15,15 +16,27 @@ export class CoreConfiguration {
                 if (err) return res.end('error')
             })
             this.eventManager.emit(req.url, { req, res })
+        }).on('error', (err) => {
+            console.log(err)
+            this.eventStore.closeConnection();
+        }).on('close', () => {
+            console.log("Server closed");
+            eventStore.closeConnection();
         })
+    }
+
+    get eventStore() {
+        if (!this.#eventStore){
+            this.#eventStore = new EventStore();
+            this.#eventStore.init();
+        }
+        return this.#eventStore;
     }
 
     get eventManager() {
         if (!this.#eventManager){
-            const eventStore = new EventStore();
-            this.#eventManager = new EventManager(eventStore);
+            this.#eventManager = new EventManager(this.eventStore);
         }
-           
         return this.#eventManager
     }
 
