@@ -77,6 +77,18 @@ export class EventStore {
     }
   }
 
+  async findByTypeLike(eventType) {
+    try {
+      console.debug("Retrieving events by type like...", eventType);
+      const events = await this.collection.find({ type: { $regex: eventType } }).toArray();
+      console.debug("Events retrieved:", JSON.stringify(events));
+      return events;
+    } catch (err) {
+      console.error("Error retrieving events by event type like:" + eventType, err);
+      return [];
+    }
+  }
+
   async closeConnection() {
     await this.client.close();
   }
