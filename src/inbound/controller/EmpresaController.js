@@ -11,11 +11,15 @@ export class EmpresaController {
 
     handleEmpresa({ req, res }) {
         req.on('data', (chunk) => {
-            req.body = JSON.parse(chunk.toString())
-            const user = req.headers['user-id']
-            console.log(req);
-            this.solicitarCadastroEmpresa.execute(req.body)
-            res.end('Empresa controller fired for user ' + user)
+            try {
+                req.body = JSON.parse(chunk.toString())
+                this.solicitarCadastroEmpresa.execute(req.body)
+                res.end(JSON.stringify({ message: 'solicitação em processamento' }))
+            } catch (e) {
+                this.eventManager.emit(EventBuilder.build({ feature: 'cadastro-empresa', action: 'solicitacao-falhou' }), { ...req.body, errorMessage: e.message });
+                res.statusCode = 400
+                res.end(JSON.stringify({ message: e.message }))
+            }
         })
     }
 

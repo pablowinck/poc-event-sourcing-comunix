@@ -18,7 +18,7 @@ export class CoreConfiguration {
             try {
                 this.eventManager.emit(req.url, { req, res })
             } catch (error) {
-                console.log(error)
+                console.error(error)
                 res.statusCode = 500
                 res.end('error')
             }

@@ -5,8 +5,7 @@ export class EventController {
         this.eventManager = eventManager
     }
 
-    async handleEvent({ req, res }) {
-        const user = req.headers['user-id']
+    async handleEvent({ res }) {
         const events = await this.eventManager.eventStore.getAll()
         res.end(JSON.stringify(events))
     }
