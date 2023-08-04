@@ -9,6 +9,7 @@ export class CoreConfiguration {
 
   get server() {
     const logger = morgan("tiny");
+    console.debug = () => {}
     return createServer((req, res) => {
       res.setHeader("content-type", "application/json");
       logger(req, res, function (err) {
@@ -34,7 +35,7 @@ export class CoreConfiguration {
 
   get eventStore() {
     if (!this.#eventStore) {
-      this.#eventStore = new EventStore();
+      this.#eventStore = EventStore.getInstance();
       this.#eventStore.init();
     }
     return this.#eventStore;

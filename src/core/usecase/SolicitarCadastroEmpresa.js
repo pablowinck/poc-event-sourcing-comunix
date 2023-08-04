@@ -31,6 +31,6 @@ export class SolicitarCadastroEmpresa {
   #validar(dto) {
     const cnpj = dto.cnpj.replace(/[^\d]+/g, "");
     CNPJValidator.valid(cnpj);
-    if (!dto?.nome.trim()) throw new Error("Invalid name");
+    if (!dto?.nome?.trim()) throw new Error("Invalid name");
   }
 }

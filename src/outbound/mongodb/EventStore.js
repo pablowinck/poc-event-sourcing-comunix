@@ -7,12 +7,21 @@ export class EventStore {
     this.collectionName = "events";
   }
 
+  static instance = null;
+
+  static getInstance() {
+    if (EventStore.instance === null) {
+      EventStore.instance = new EventStore();
+    }
+    return EventStore.instance;
+  }
+
   async init() {
+    if (this.client) {
+      console.debug("Connection to MongoDB already established.");
+      return;
+    }
     try {
-      if (this.client) {
-        console.debug("Connection to MongoDB already established.");
-        return;
-      }
       this.client = await MongoClient.connect(this.mongoURL);
       this.db = this.client.db(this.dbName);
       this.collection = this.db.collection(this.collectionName);
@@ -97,5 +106,6 @@ export class EventStore {
 
   async closeConnection() {
     await this.client.close();
+    console.log("Connection to MongoDB closed.");
   }
 }
