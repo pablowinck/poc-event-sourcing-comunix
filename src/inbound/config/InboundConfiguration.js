@@ -1,8 +1,10 @@
+import { EmpresaController } from "../controller/EmpresaController.js";
+import { EventController } from "../controller/EventController.js";
 import { UserController } from "../controller/UserController.js";
 
 export class InboundConfiguration {
 
-    controllers = [UserController]
+    controllers = [UserController, EmpresaController, EventController]
 
     constructor(eventManager) {
         this.#initControllers(eventManager);

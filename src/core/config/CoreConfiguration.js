@@ -15,7 +15,13 @@ export class CoreConfiguration {
             logger(req, res, function (err) {
                 if (err) return res.end('error')
             })
-            this.eventManager.emit(req.url, { req, res })
+            try {
+                this.eventManager.emit(req.url, { req, res })
+            } catch (error) {
+                console.log(error)
+                res.statusCode = 500
+                res.end('error')
+            }
         }).on('error', (err) => {
             console.log(err)
             this.eventStore.closeConnection();
@@ -26,7 +32,7 @@ export class CoreConfiguration {
     }
 
     get eventStore() {
-        if (!this.#eventStore){
+        if (!this.#eventStore) {
             this.#eventStore = new EventStore();
             this.#eventStore.init();
         }
@@ -34,7 +40,7 @@ export class CoreConfiguration {
     }
 
     get eventManager() {
-        if (!this.#eventManager){
+        if (!this.#eventManager) {
             this.#eventManager = new EventManager(this.eventStore);
         }
         return this.#eventManager

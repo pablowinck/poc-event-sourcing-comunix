@@ -28,4 +28,8 @@ export class EventManager extends EventEmitter {
         return args?.req && args?.res
     }
 
+    get eventStore() {
+        return this.#eventStore;
+    }
+
 }
