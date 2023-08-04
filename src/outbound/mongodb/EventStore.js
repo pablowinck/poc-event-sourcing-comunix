@@ -1,7 +1,6 @@
 import { MongoClient } from "mongodb";
 
 export class EventStore {
-
   constructor() {
     this.mongoURL = "mongodb://localhost:27017";
     this.dbName = "my_event_store";
@@ -13,16 +12,18 @@ export class EventStore {
       if (this.client) {
         console.debug("Connection to MongoDB already established.");
         return;
-      };
+      }
       this.client = await MongoClient.connect(this.mongoURL);
       this.db = this.client.db(this.dbName);
       this.collection = this.db.collection(this.collectionName);
       console.debug("Connection to MongoDB established.");
-      this.client.on("close", () => {
-        console.debug("Connection to MongoDB closed.");
-      }).on("error", (err) => {
-        console.error("Error connecting to MongoDB:", err);
-      });
+      this.client
+        .on("close", () => {
+          console.debug("Connection to MongoDB closed.");
+        })
+        .on("error", (err) => {
+          console.error("Error connecting to MongoDB:", err);
+        });
     } catch (err) {
       console.error("Error connecting to MongoDB:", err);
     }
@@ -80,11 +81,16 @@ export class EventStore {
   async findByTypeLike(eventType) {
     try {
       console.debug("Retrieving events by type like...", eventType);
-      const events = await this.collection.find({ type: { $regex: eventType } }).toArray();
+      const events = await this.collection
+        .find({ type: { $regex: eventType } })
+        .toArray();
       console.debug("Events retrieved:", JSON.stringify(events));
       return events;
     } catch (err) {
-      console.error("Error retrieving events by event type like:" + eventType, err);
+      console.error(
+        "Error retrieving events by event type like:" + eventType,
+        err,
+      );
       return [];
     }
   }
@@ -92,5 +98,4 @@ export class EventStore {
   async closeConnection() {
     await this.client.close();
   }
-
 }

@@ -10,7 +10,7 @@ describe("EventStore", () => {
       description: "Create User",
       status: "To Do",
     };
-    const eventType = 'user-created-' + new Date().getTime();
+    const eventType = "user-created-" + new Date().getTime();
     await eventStore.insert(eventType, event);
     const events = await eventStore.findByType(eventType);
     assert.strictEqual(events.length, 1);
@@ -25,9 +25,9 @@ describe("EventStore", () => {
       description: "Create User",
       status: "To Do",
     };
-    const eventType = 'user-created-' + new Date().getTime();
+    const eventType = "user-created-" + new Date().getTime();
     await eventStore.insert(eventType, event);
-    const events = await eventStore.findByTypeLike('user-created');
+    const events = await eventStore.findByTypeLike("user-created");
     assert.strictEqual(events.length, 1);
     assert.strictEqual(events[0].data.description, event.description);
     await eventStore.deleteAll();
